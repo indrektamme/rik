@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron">
+  <h1>Osaühingud</h1>
+  <form method="post">
+    {{ form.name.label }}{{ form.name }}
+    {{ form.registry_code.label }}{{ form.registry_code }}
+    {{ form.submit }}
+  </form>
+  <table id="customers">
+    <tr>
+      <th>Nimi</th>
+      <th>Registrikood</th>
+    </tr>
+    {% for line in result %}
+    <tr>
+      <td><a href="{{ url_for('companies.info', id=line.id) }}">{{ line.name }}</a></td>
+      <td>{{ line.registry_code }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron">
+  <h1>Osaühing {{ company.name }}</h1>
+  <p></p>
+  <p>Registrikood: {{ company.registry_code }}</p>
+  <p>Registreerimise aeg: {{ company.registered }}</p>
+  <h2>Omanikud:</h2>
+  <table id="customers" border='1'>
+    <tr>
+      <th>Omanik</th>
+      <th>Asutajaliige</th>
+      <th>Kapitgal</th>
+    </tr>
+  <tr>
+  {% for owner in owners %}
+    <td>{{owner.name}}</td>
+    <td>{{owner.establisher}}</td>
+    <td>{{owner.capital}}</td>
+  </tr>
+
+
+  {% endfor %}
+  </table>
+</div>
+
+{% endblock %}

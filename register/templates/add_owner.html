@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron">
+  <h1>Osaühingu registreerimine</h1>
+  <p>Nimi: {{ session['name'] }}</p>
+  <p>reg kood: {{ session['registry_code'] }}</p>
+  <p>capital: {{ session['capital'] }}</p>
+  <p>registreeritud: {{ session['registered'] }}</p>
+  <p><a href="{{ url_for('companies.register') }}">Tagasi algusesse</a></p>
+  <h3>Asutajad:</h3>
+  {% if "owners" in session %}
+    <table id="customers">
+      <tr><th>Asutaja</th><th>Kapital</th></tr>
+    {% for owner in session['owners'] %}
+      <tr>
+        {% if owner['owner_as_legal_person'] %}
+          <td>{{ owner['owner_as_legal_person_name'] }}</td>
+        {% else %}
+          <td>{{ owner['owner_as_natural_person_name'] }}</td>
+        {% endif %}
+        <td>{{ owner['capital_share'] }}</td>
+      </tr>
+    {% endfor %}
+    </table>
+  {% endif %}
+  <form method="post">
+    <h3>Lisa omanikud ja asutajad:</h3>
+
+    <div id="nperson">
+      {{ form.owner_as_natural_person.label }}{{ form.owner_as_natural_person(onchange="hideLperson()") }}
+    </div>
+    <div id="lperson">
+      {{ form.owner_as_legal_person.label }}{{ form.owner_as_legal_person(onchange="hideNperson()") }}
+    </div>
+
+    {{ form.capital_share.label }}{{ form.capital_share() }}
+    <br>
+    {{ form.submit() }}
+  </form>
+  <a href="{{ url_for('owners.save') }}"><button type="button">Salvesta osaühing!</button></a>
+  <a href="{{ url_for('owners.delete_owners_from_session') }}"><button type="button">Kustuta kõik kasutajad!</button></a>
+</div>
+<p id="demo"></p>
+
+<script>
+function hideLperson() {
+  var x = document.getElementById("lperson");
+    x.style.display = "none";
+}
+
+function hideNperson() {
+  var x = document.getElementById("nperson");
+    x.style.display = "none";
+}
+
+</script>
+
+{% endblock %}

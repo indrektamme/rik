@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron">
+  <h1>Osaühingu registreerimine</h1>
+
+  <form class="form-group row" method="post">
+    {{ form.hidden_tag() }}
+    {{ form.name.label }}{{ form.name() }}
+    {{ form.registry_code.label }}{{ form.registry_code() }}
+    {{ form.registered.label }}{{ form.registered() }}
+    {{ form.capital.label }}{{ form.capital() }}
+    {{ form.submit() }}
+
+  </form>
+</div>
+
+{% endblock %}

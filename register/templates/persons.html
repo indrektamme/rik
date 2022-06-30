@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="jumbotron">
+  <h1>Füüsilised isikud</h1>
+  <table id="customers">
+    <tr>
+      <th>Eesnimi</th>
+      <th>Perekonnanimi</th>
+      <th>Isikukood</th>
+    </tr>
+  {% for person in persons_list %}
+    <tr>
+      <td>{{ person.firstname }}</td>
+      <td>{{ person.lastname }}</td>
+      <td>{{ person.personalcode }}</td>
+  {% endfor %}
+  </table>
+  <p></p>
+  <p></p>
+  <h2>Lisa uus</h2>
+
+
+
+  <form class="form-group row" method="post">
+    {{ form.hidden_tag() }}
+    {{ form.firstname(placeholder="Eesnimi") }}
+    {{ form.lastname(placeholder="Perekonnanimi") }}
+    {{ form.personalcode(placeholder="Isikukood") }}
+    {{ form.submit() }}
+  </form>
+</div>
+
+{% endblock %}
