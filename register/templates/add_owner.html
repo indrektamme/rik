@@ -4,7 +4,6 @@
   <h1>Osaühingu registreerimine</h1>
   <p>Nimi: {{ session['name'] }}</p>
   <p>reg kood: {{ session['registry_code'] }}</p>
-  <p>capital: {{ session['capital'] }}</p>
   <p>registreeritud: {{ session['registered'] }}</p>
   <p><a href="{{ url_for('companies.register') }}">Tagasi algusesse</a></p>
   <h3>Asutajad:</h3>

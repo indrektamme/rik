@@ -28,6 +28,7 @@ def index():
 @companies.route('/<int:id>/info', methods=['GET', 'POST'])
 def info(id):
     company = Company.query.get(id)
+    company_info = {'name': company.name, 'registry_code': company.registry_code, 'registered': company.registered, 'capital': 0}
     owners = Ownership.query.filter_by(company_id=id)
     owners_list = []
     for o in owners:
@@ -42,7 +43,10 @@ def info(id):
             lperson = Company.query.get(o.owner_as_legal_person)
             name = f"{lperson.name} (reg.kood: {lperson.registry_code}"
         owners_list.append({'name': name, 'establisher': establisher, 'capital': o.capital, 'id': o.id})
-    return render_template('info.html', company=company, owners=owners_list)
+
+    for capital in owners_list:
+        company_info['capital'] += capital['capital']
+    return render_template('info.html', company=company_info, owners=owners_list)
 
 
 @companies.route('/register', methods=['GET', 'POST'])
@@ -53,7 +57,6 @@ def register():
         session['name'] = form.name.data
         session['registry_code'] = form.registry_code.data
         session['registered'] = form.registered.data.strftime("%Y-%m-%d")
-        session['capital'] = form.capital.data
         return redirect(url_for('owners.add_owners'))
 
     if "name" in session:
@@ -61,5 +64,4 @@ def register():
         form.registered.data = datetime(int(dat[0]), int(dat[1]), int(dat[2]))
         form.name.data = session['name']
         form.registry_code.data = session['registry_code']
-        form.capital.data = session['capital']
     return render_template('register.html', form=form)

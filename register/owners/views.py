@@ -52,8 +52,10 @@ def add_owners():
 @owners.route('/save', methods=['GET', 'POST'])
 def save():
     if validate_owners_data():
+        print(validate_owners_data())
         try:
-            company = Company(name=session['name'], registry_code=session['registry_code'], registered=string_to_date(session['registered']), capital=session['capital'])
+            company = Company(name=session['name'], registry_code=session['registry_code'], registered=string_to_date(session['registered']))
+            print(company)
             db.session.add(company)
             db.session.commit()
 
@@ -68,9 +70,11 @@ def save():
                 db.session.commit()
 
             flash('Ettevõte on edukalt salvestatud!')
+            print("tehtud")
             session.clear()
             return redirect(url_for('companies.info', id=company.id))
         except Exception as e:
+            print("appi")
             print(e)
 
     return redirect(url_for('owners.add_owners'))
@@ -85,8 +89,8 @@ def validate_owners_data():
         capital_sum = 0
         for owner in k:
             capital_sum += int(owner['capital_share'])
-        if capital_sum != session['capital']:
-            flash(f"Liikmete kapitali summa {capital_sum} € on erinev ettevõtte põhikapitalist {session['capital']} €.")
+        if capital_sum < 2500:
+            flash(f"Põhikapitali summa {capital_sum} € peab olema vähemalt 2500 €.")
             return False
         return True
     else:

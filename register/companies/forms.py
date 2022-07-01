@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, SelectField, IntegerField, DateField, BooleanField, ValidationError
+from wtforms import StringField, SubmitField, IntegerField, DateField, ValidationError
 from wtforms.validators import DataRequired, NumberRange
-from datetime import datetime, date
+from datetime import date
 from flask import flash
 from register.models import Company
 
@@ -10,7 +10,6 @@ class RegisterForm(FlaskForm):
     name = StringField('Nimi', validators=[DataRequired()])
     registry_code = IntegerField('Registrikood', validators=[NumberRange(min=1000000, max=9999999)])
     registered = DateField('Registreerimis kuupäev', validators=[DataRequired()])
-    capital = IntegerField('Põhikapital', validators=[NumberRange(min=2500)])
     submit = SubmitField('Lisa asutajad / omanikud')
 
     def validate_registered(self, field):

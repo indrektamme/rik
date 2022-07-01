@@ -8,15 +8,13 @@ class Company(db.Model):
     name = db.Column(db.String(100), unique=True, index=True)
     registry_code = db.Column(db.Integer(), unique=True)
     registered = db.Column(db.Date)
-    capital = db.Column(db.Integer())
 
     owns = db.relationship('Ownership', backref='as_legal_person', uselist=False)
 
-    def __init__(self, name, registry_code, registered, capital):
+    def __init__(self, name, registry_code, registered):
         self.name = name
         self.registry_code = registry_code
         self.registered = registered
-        self.capital = capital
 
 
 class Person(db.Model):
